@@ -64,7 +64,7 @@ jobs:
           - ['macosx_*', macos-latest]
         exclude:
           # TODO: disable manylinux_aarch64 for now
-          - platform: [manylinux_aarch64, ubuntu-latest]
+          # - platform: [manylinux_aarch64, ubuntu-latest]
           - platform: [musllinux_x86_64, ubuntu-latest]
     steps:
       - name: Checkout
@@ -80,6 +80,8 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
+      - name: Install extra QEMU stuff # https://github.com/docker/buildx/issues/464
+        run: docker run -it --rm --privileged tonistiigi/binfmt --install all
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.12.2
         env:
