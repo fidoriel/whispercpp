@@ -47,7 +47,6 @@ jobs:
   build-arm-musl-wheels:
     name: Build wheels for ${{ matrix.python[1] }}-${{ startsWith(matrix.platform[0], 'macosx') && 'macosx' || matrix.platform[0] }}
     runs-on: ${{ matrix.platform[1] }}
-    if: ${{ failure() }} # Don't run on fork repository
     timeout-minutes: 120
     strategy:
       fail-fast: false
@@ -135,6 +134,8 @@ jobs:
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
+      - name: Install extra QEMU stuff # https://github.com/docker/buildx/issues/464
+        run: docker run -it --rm --privileged tonistiigi/binfmt --install all
       - name: Building wheels
         run: bazel build whispercpp_wheel
       - name: Test built wheel
