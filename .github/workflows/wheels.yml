@@ -79,7 +79,7 @@ jobs:
         with:
           platforms: all
       - name: Install extra QEMU stuff # https://github.com/docker/buildx/issues/464
-        run: docker run -it --rm --privileged tonistiigi/binfmt --install all
+        run: docker run --rm --privileged tonistiigi/binfmt --install all
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.12.2
         env:
@@ -135,7 +135,7 @@ jobs:
         with:
           platforms: all
       - name: Install extra QEMU stuff # https://github.com/docker/buildx/issues/464
-        run: docker run -it --rm --privileged tonistiigi/binfmt --install all
+        run: docker run --rm --privileged tonistiigi/binfmt --install all
       - name: Building wheels
         run: bazel build whispercpp_wheel
       - name: Test built wheel
